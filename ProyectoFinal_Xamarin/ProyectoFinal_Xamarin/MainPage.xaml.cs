@@ -14,7 +14,5 @@ namespace ProyectoFinal_Xamarin
 		{
 			InitializeComponent();
 		}
-
-
     }
 }
