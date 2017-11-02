@@ -13,11 +13,11 @@ namespace ProyectoFinal_Xamarin {
     
     [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Users\\lusec\\source\\repos\\ProyectoFinal_Xamarin\\ProyectoFinal_Xamarin\\ProyectoF" +
         "inal_Xamarin\\MainPage.xaml")]
-    public partial class MainPage : global::Xamarin.Forms.ContentPage {
+    public partial class LoginPage : global::Xamarin.Forms.ContentPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private void InitializeComponent() {
-            global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(MainPage));
+            global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(LoginPage));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ProyectoFinal_Xamarin
 		{
 			InitializeComponent();
 
-			MainPage = new ProyectoFinal_Xamarin.MainPage();
+			MainPage = new NavigationPage(new ProyectoFinal_Xamarin.LoginPage());
 		}
 
 		protected override void OnStart ()
