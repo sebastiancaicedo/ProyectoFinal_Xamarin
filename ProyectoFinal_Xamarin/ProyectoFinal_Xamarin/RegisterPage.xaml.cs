@@ -12,10 +12,10 @@ namespace ProyectoFinal_Xamarin
 {
 
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class RegisterPage : ContentPage, IFinishActivity<Profesor>
+	public partial class RegisterPage : ContentPage, IFinishActivity<RegisterPage.ReturnData>
 	{
 
-        public event EventHandler<ReturnInfo<Profesor>> FinishActivity;
+        public event EventHandler<ReturnInfo<ReturnData>> FinishActivity;
 
         public RegisterPage ()
 		{
@@ -39,9 +39,9 @@ namespace ProyectoFinal_Xamarin
             if(!String.IsNullOrEmpty(name) && !String.IsNullOrEmpty(lastName) && !String.IsNullOrEmpty(email) && !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(confirmPass)){
                 if(password == confirmPass)
                 {
-                    Profesor profesor = new Profesor(name, lastName, email, password);
-                    FinishActivity(this, new ReturnInfo<Profesor>(ReturnResult.Succesful, profesor));
+                    Professor professor = new Professor(name, lastName, email);
                     Navigation.PopAsync();
+                    FinishActivity(this, new ReturnInfo<ReturnData>(ReturnResult.Succesful, new ReturnData(professor, password)));
                 }
                 else
                 {
@@ -51,6 +51,18 @@ namespace ProyectoFinal_Xamarin
             else
             { 
                 DisplayAlert("Error", "All fields must be full", "OK");
+            }
+        }
+
+        public struct ReturnData
+        {
+            public Professor ProfessorInfo { get; private set; }
+            public string Password { get; private set; }
+
+            public ReturnData(Professor professor, string password)
+            {
+                ProfessorInfo = professor;
+                Password = password;
             }
         }
     }

@@ -9,7 +9,7 @@
             <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand">
                 <Entry x:Name="entryEmail" Placeholder="example@uninorte.edu.co"></Entry>
                 <Entry x:Name="entryPassword" Placeholder="******"></Entry>
-                <Button Text="Sign In"></Button>
+                <Button Text="Sign In" Clicked="OnLoginButtonClick"></Button>
             </StackLayout>
             <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand">
                 <Button Text="Don't have an account?. Register here" Clicked="ShowRegisterPage"></Button>

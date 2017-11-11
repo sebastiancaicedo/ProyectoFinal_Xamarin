@@ -6,16 +6,26 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using ProyectoFinal_Xamarin;
 using ProyectoFinal_Xamarin.Classes;
+using Firebase.Xamarin.Auth;
+using System.Diagnostics;
 
 namespace ProyectoFinal_Xamarin
 {
 	public partial class LoginPage : ContentPage
 	{
+        public static FirebaseAuth auth;
+
 		public LoginPage()
 		{
             Title = "Sign In";
 			InitializeComponent();
+            InitFirebase();
 		}
+
+        private void InitFirebase()
+        {
+            
+        }
 
         /// <summary>
         /// Evento del click del boton show register page
@@ -34,19 +44,33 @@ namespace ProyectoFinal_Xamarin
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnFinishRegister(object sender, ReturnInfo<Profesor> e)
+        async private void OnFinishRegister(object sender, ReturnInfo<RegisterPage.ReturnData> e)
         {
             //Todo bien
-            if(e.Result == ReturnResult.Succesful)
+            if (e.Result == ReturnResult.Succesful)
             {
-                Profesor profesor = e.Data;
+                RegisterPage.ReturnData data = e.Data;
+                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(FirebaseDBHelper.APP_API_KEY));
+                auth = await authProvider.CreateUserWithEmailAndPasswordAsync(data.ProfessorInfo.Email, data.Password);
                 LogIn();
             }
         }
 
-        private void LogIn()
+        async public void OnLoginButtonClick(object sender, EventArgs e)
+        {
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(FirebaseDBHelper.APP_API_KEY));
+            auth = await authProvider.SignInWithEmailAndPasswordAsync(entryEmail.Text, entryPassword.Text);
+            LogIn();
+        }
+
+        async private void LogIn()
         {
             //Toda la logica del login
+            Debug.WriteLine("FederatedID: " + auth.User.FederatedId);
+            Debug.WriteLine("Token: " + auth.FirebaseToken);
+            Debug.WriteLine("Local ID: "+auth.User.LocalId);
+            Debug.WriteLine("email: " + auth.User.Email);
+            await Navigation.PushModalAsync(new HomePage());
         }
     }
 }
