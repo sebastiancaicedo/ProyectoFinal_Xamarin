@@ -49,13 +49,13 @@ namespace ProyectoFinal_Xamarin
                     auth = await FirebaseHelper.authProvider.CreateUserWithEmailAndPasswordAsync(data.ProfessorInfo.Email, data.Password);
                     //guardamos el usuario en la base de datos
                     await data.ProfessorInfo.SaveThisUserOnDB();
-                    ShowHomePage();
                 }
                 catch (Exception ex)
                 {
                     await DisplayAlert("Error", "That email exist already", "OK");
                     //throw ex;
                 }
+                ShowHomePage();
             }
         }
 
@@ -66,18 +66,20 @@ namespace ProyectoFinal_Xamarin
         /// <param name="e"></param>
         public async void LogIn(object sender, EventArgs e)
         {
+            entryEmail.Text = "admin@uninorte.edu.co";
+            entryPassword.Text = "123456";
             if (!String.IsNullOrEmpty(entryEmail.Text) && !String.IsNullOrEmpty(entryPassword.Text))
             {
                 try
                 {
                     auth = await FirebaseHelper.authProvider.SignInWithEmailAndPasswordAsync(entryEmail.Text, entryPassword.Text);
-                    ShowHomePage();
                 }
                 catch (Exception ex)
                 {
                     await DisplayAlert("Error", "Credentials are not registered in data base", "OK");
                     //throw ex;
                 }
+                ShowHomePage();
             }
             else
             {

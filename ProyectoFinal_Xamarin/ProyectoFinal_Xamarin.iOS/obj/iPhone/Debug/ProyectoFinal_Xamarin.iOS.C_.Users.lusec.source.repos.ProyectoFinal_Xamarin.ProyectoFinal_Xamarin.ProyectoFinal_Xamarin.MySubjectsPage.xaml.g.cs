@@ -12,12 +12,12 @@ namespace ProyectoFinal_Xamarin {
     
     
     [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Users\\lusec\\source\\repos\\ProyectoFinal_Xamarin\\ProyectoFinal_Xamarin\\ProyectoF" +
-        "inal_Xamarin\\HomePage.xaml")]
-    public partial class HomePage : global::Xamarin.Forms.MasterDetailPage {
+        "inal_Xamarin\\MySubjectsPage.xaml")]
+    public partial class MySubjectsPage : global::Xamarin.Forms.TabbedPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private void InitializeComponent() {
-            global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(HomePage));
+            global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(MySubjectsPage));
         }
     }
 }
