@@ -19,13 +19,7 @@ namespace ProyectoFinal_Xamarin
 		{
             Title = "Sign In";
 			InitializeComponent();
-            InitFirebase();
 		}
-
-        private void InitFirebase()
-        {
-            
-        }
 
         /// <summary>
         /// Evento del click del boton show register page
@@ -35,7 +29,7 @@ namespace ProyectoFinal_Xamarin
         public void ShowRegisterPage(object sender, EventArgs e)
         {
             RegisterPage registerPage = new RegisterPage();
-            registerPage.FinishActivity += OnFinishRegister;
+            registerPage.FinishActivity += OnFinishRegisterActivity;
             Navigation.PushAsync(registerPage);
         }
 
@@ -43,34 +37,65 @@ namespace ProyectoFinal_Xamarin
         /// Callback que se ejecuta cuando ocurre el evento FinishActivity de la pagina de registro
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        async private void OnFinishRegister(object sender, ReturnInfo<RegisterPage.ReturnData> e)
+        /// <param name="e">La ReturnInfo que contiene el result y el return data del register page que contiene
+        /// el professor creado y su contraseña.</param>
+        private async void OnFinishRegisterActivity(object sender, ReturnInfo<RegisterPage.ReturnData> e)
         {
-            //Todo bien
-            if (e.Result == ReturnResult.Succesful)
+            if (e.Result == ReturnResult.Successful)//Todo bien
             {
                 RegisterPage.ReturnData data = e.Data;
-                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(FirebaseDBHelper.APP_API_KEY));
-                auth = await authProvider.CreateUserWithEmailAndPasswordAsync(data.ProfessorInfo.Email, data.Password);
-                LogIn();
+                try
+                {
+                    auth = await FirebaseHelper.authProvider.CreateUserWithEmailAndPasswordAsync(data.ProfessorInfo.Email, data.Password);
+                    //guardamos el usuario en la base de datos
+                    await data.ProfessorInfo.SaveThisUserOnDB();
+                    ShowHomePage();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", "That email exist already", "OK");
+                    //throw ex;
+                }
             }
         }
 
-        async public void OnLoginButtonClick(object sender, EventArgs e)
+        /// <summary>
+        /// Evento del click del boton LogIn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void LogIn(object sender, EventArgs e)
         {
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(FirebaseDBHelper.APP_API_KEY));
-            auth = await authProvider.SignInWithEmailAndPasswordAsync(entryEmail.Text, entryPassword.Text);
-            LogIn();
+            if (!String.IsNullOrEmpty(entryEmail.Text) && !String.IsNullOrEmpty(entryPassword.Text))
+            {
+                try
+                {
+                    auth = await FirebaseHelper.authProvider.SignInWithEmailAndPasswordAsync(entryEmail.Text, entryPassword.Text);
+                    ShowHomePage();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", "Credentials are not registered in data base", "OK");
+                    //throw ex;
+                }
+            }
+            else
+            {
+                await DisplayAlert("Error", "Email or password field is empty", "OK");
+            }
         }
 
-        async private void LogIn()
+        /// <summary>
+        /// Muestra la ventana principal y la coloca como la main page de la aplicacion
+        /// </summary>
+        private void ShowHomePage()
         {
             //Toda la logica del login
             Debug.WriteLine("FederatedID: " + auth.User.FederatedId);
             Debug.WriteLine("Token: " + auth.FirebaseToken);
             Debug.WriteLine("Local ID: "+auth.User.LocalId);
             Debug.WriteLine("email: " + auth.User.Email);
-            await Navigation.PushModalAsync(new HomePage());
+            Application.Current.MainPage = new NavigationPage(new HomePage());
         }
     }
 }

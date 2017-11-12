@@ -14,7 +14,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Asignatura.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Evaluacion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\FirebaseDBHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\FirebaseHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\IFinishActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Professor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Rubrica.cs" />

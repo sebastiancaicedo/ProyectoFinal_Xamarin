@@ -7,7 +7,7 @@ namespace ProyectoFinal_Xamarin.Classes
 
     public enum ReturnResult
     {
-        Succesful,
+        Successful,
         Failed,
         UnCompleted
     }
